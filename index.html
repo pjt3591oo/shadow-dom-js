@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+  <div>
+    <input type="range">
+  </div>
+
+  <div>
+    <progress value="0.4" ></progress>
+  </div>
+
+  <div>
+    <!--  template밖의 요소를 slot으로 집어 넣는다-->
+    <menu-toggle>
+      123
+      <template shadowroot="open">
+        <button>
+          <slot></slot>
+        </button>
+      </template>
+      button
+    </menu-toggle>
+  </div>
+
+  <script>
+    class MenuToggle extends HTMLElement {
+      constructor() {
+        super();
+        console.log(this) // customElements.define의 첫 번째 인자로 전달한 Tag
+        console.log(this?.shadowRoot) // customElements 첫 번째 인자로 전달한 Tag의 자식 태그인 template를 가져온다.
+        console.log(this?.shadowRoot?.querySelector('button'))
+
+        // SSR 컨텐트 존재 여부 감지: template></template> 확인
+        if (this.shadowRoot) {
+          // 선언적 섀도 루트가 존재한다!
+          // 예) 이벤트 리스너 등록과 참조를 걸어줄 수 있다.
+          // const button = this.shadowRoot.firstElementChild;
+          const button = this.shadowRoot.querySelector('button');
+          button.addEventListener('click', toggle);
+        } else {
+          // 선언적 섀도 루트가 존재하지 않는다! -> <
+          // 새로운 섀도 루트를 만들어 추가한다.
+          const shadow = this.attachShadow({mode: 'open'});
+          shadow.innerHTML = `<button><slot></slot></button>`;
+          shadow.firstChild.addEventListener('click', toggle);
+        }
+      }
+    }
+  
+    customElements.define('menu-toggle', MenuToggle);
+
+    function toggle(e) {
+      console.log(e);
+    }
+  </script>
+</body>
+
+</html>
