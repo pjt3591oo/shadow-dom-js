@@ -39,9 +39,7 @@
           const button = this.shadowRoot.querySelector('button');
           button.addEventListener('click', toggle);
         } else {
-          // 선언적 섀도 루트가 존재하지 않는다! -> <
-          // 새로운 섀도 루트를 만들어 추가한다.
-          const shadow = this.attachShadow({mode: 'open'});
+          const shadow = this.attachShadow({mode: 'open'}); // 해당 DOM을 shadow dom으로 생성한다.
           shadow.innerHTML = `<button><slot></slot></button>`;
           shadow.firstChild.addEventListener('click', toggle);
         }

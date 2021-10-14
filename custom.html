@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="custom/counter.js"></script>
+  </head>
+<body>
+  <mung-custom count=0 id="counter"></mung-custom>
+  <a href="https://www.naver.com">a</a>
+  <button id="clear">clear</button>
+  <script>
+    const counter = document.getElementById('counter');
+    document.getElementById('clear').addEventListener('click', () => {
+      document.body.removeChild(counter);
+    })
+    customElements.define('mung-custom', Counter);
+  </script>
+</body>
+
+</html>
