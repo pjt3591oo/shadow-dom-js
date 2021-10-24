@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>template</title>
+</head>
+
+<body>
+
+  <template id="template">
+    <h1 slot="title">Hi~</h1>
+  </template>
+
+  <script>
+    const t = document.querySelector('#template');
+
+    // template 복사 -> 활성화 -> 문서에 삽입
+    const clone = document.importNode(t.content, true);
+    clone.innerHTML = '<slot name="title"> </slot>'
+    document.body.appendChild(clone);
+  </script>
+</body>
+
+</html>

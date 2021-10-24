@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>custom element</title>
+</head>
+
+<body>
+
+  <shadow-host id="shadow-host">
+    <template shadowroot="open">
+    </template>
+  </shadow-host>
+
+  <template id="template-click-btn">
+    <style>
+      button {
+        border: 0; background-color: red; color: white;
+      }
+     
+    </style>
+    <button>click</button>
+    <div>
+      <slot name="name"></slot>
+      <slot name="age"></slot>
+    </div>
+  </template>
+
+  <script>
+    class ShadowHost extends HTMLElement {
+      constructor() {
+        super();
+        this.addBtn();
+        this.innerHTML = `
+          <span slot="name">멍개</span>
+          <span slot="age">123</span>
+        `
+      }
+
+      addBtn() {
+        // template 복사 -> 활성화 -> 문서에 삽입
+        const t = document.querySelector('#template-click-btn');
+        const clone = document.importNode(t.content, true);
+        this.shadowRoot.appendChild(clone);
+      }
+    }
+
+    window.customElements.define('shadow-host', ShadowHost);
+  </script>
+</body>
+
+</html>
